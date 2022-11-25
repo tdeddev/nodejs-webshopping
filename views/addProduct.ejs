@@ -1,0 +1,50 @@
+<%- include('header') %>
+
+    <form method="post" class="container mt-3" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+                <div class="mt-3">
+                    <label for="">ประเภทสินค้า</label>
+                    <select name="group_product_id" class="form-control">
+                        <% groupProducts.forEach((gp)=> { %>
+                            <option value="<%= gp.id %>"
+                                <% if (product.group_product_id == gp.id) { %>
+                                    selected
+                                <% } %>
+                                >
+                                <%= gp.name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label for="">บาโค้ด</label>
+                    <input type="text" name="barcode" id="" class="form-control" value="<%= product.barcode %>">
+                </div>
+                <div class="mt-3">
+                    <label for="">ชื่อสินค้า</label>
+                    <input type="text" name="name" id="" class="form-control" value="<%= product.name %>">
+                </div>
+                <div class="mt-3">
+                    <label for="">ราคาต้นทุน</label>
+                    <input type="text" name="cost" id="" class="form-control" value="<%= product.cost %>">
+                </div>
+                <div class="mt-3">
+                    <label for="">ราคาจำหน่าย</label>
+                    <input type="text" name="price" id="" class="form-control" value="<%= product.price %>">
+                </div>
+                <div class="mt-3">
+                    <label for="">ภาพสินค้า</label>
+                    <% if(product.img != undefined) { %>
+                    <div class="mb-1 mt-1"><img src="../images/<%= product.img %>" width="200px"></div>
+                    <% } %>
+                    <input type="file" name="img" id="" class="form-control">
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <%- include('footer') %>

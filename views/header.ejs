@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <title>TDED - SHOPPING</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lemon&family=Prompt:ital,wght@1,300&display=swap');
+
+    * {
+      font-family: 'Prompt', sans-serif;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    header {
+      background-color: rgb(116, 128, 236);
+      height: 5rem;
+      border-radius: 1rem;
+    }
+
+    .icons {
+      display: inline-flex;
+      vertical-align: bottom;
+    }
+
+    .title {
+      font-size: 2rem;
+      color: #fff;
+      margin-left: 1rem;
+      margin-top: 1rem;
+    }
+
+    .title-span {
+      color: rgb(253, 201, 137);
+      font-size: 2rem;
+    }
+
+    .footer {
+      background-color: #333333;
+      color: #fff;
+      border-radius: 1rem;
+    }
+
+    .footer p {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    header nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .list-menu ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 5rem;
+    }
+
+    .list-menu ul li {
+      display: inline-block;
+      padding: 0 1rem;
+    }
+
+    .logout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .button p{
+      font-size: 1.2rem;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <% if(session.token !=undefined) { %>
+    <div class="container">
+      <div class="logout">
+        <div class="text">
+          <h2>E-Commerce Back Office</h2>
+        </div>
+        <div class="button">
+          <p>User : [<%= session.name %>]</p>
+          <a href="/changeProfile" class="btn btn-info">
+            <span class="material-symbols-outlined icons">
+              settings
+            </span>
+            แก้ไขข้อมูล
+          </a>
+          <a href="/login" class="btn btn-danger" onclick="return confirm('exit?')">
+            <span class="material-symbols-outlined icons">
+              logout
+            </span>
+            ออกจากระบบ
+          </a>
+        </div>
+      </div>
+      <header>
+        <nav>
+          <div class="nav">
+            <div class="list-menu">
+              <ul>
+                <li><a href="">
+                    <span class="material-symbols-outlined icons">
+                      home
+                    </span>
+                    HOME
+                  </a></li>
+                <li><a href="/groupProduct">
+                    <span class="material-symbols-outlined icons">
+                      shop
+                    </span>
+                    ประเภทสินค้า
+                  </a></li>
+                <li><a href="/product">
+                    <span class="material-symbols-outlined icons">
+                      code
+                    </span>
+                    สินค้า
+                  </a></li>
+                <li><a href="">
+                    <span class="material-symbols-outlined icons">
+                      computer
+                    </span>
+                    ยอดสั่งซื้อ
+                  </a></li>
+                <li><a href="/user">
+                    <span class="material-symbols-outlined icons">
+                      person
+                    </span>
+                    ผู้ใช้งานระบบ
+                  </a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- div container header -->
+    </div>
+    <% } %>
