@@ -22,7 +22,15 @@ router.use((req, res, next) => {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  let sql = 'SELECT * FROM tb_product ORDER BY id DESC'
+  conn.query(sql, (err, result) => {
+    if (err) throw err
+
+    if (req.session.cart == undefined) {
+      req.session.cart = []
+    }
+    res.render('index', { products: result });
+  })
 });
 
 router.get('/login', (req, res) => {
@@ -224,7 +232,7 @@ router.get('/addProduct', isLogin, (req, res) => {
   let sql = 'SELECT * FROM tb_group_product ORDER BY name'
   conn.query(sql, (err, result) => {
     if (err) throw err
-    res.render('addProduct', { groupProducts: result , product : {}})
+    res.render('addProduct', { groupProducts: result, product: {} })
   })
 })
 
@@ -305,7 +313,7 @@ router.post('/editProduct/:id', isLogin, (req, res) => {
 })
 
 router.get('/deleteProduct/:id/:img', isLogin, (req, res) => {
-  let newPath = 'C://full-stack/work-shop-ecom/app/public/images/'+ req.params.img
+  let newPath = 'C://full-stack/work-shop-ecom/app/public/images/' + req.params.img
 
   fs.unlink(newPath, (err) => {
     if (err) throw err
@@ -318,5 +326,125 @@ router.get('/deleteProduct/:id/:img', isLogin, (req, res) => {
     })
   })
 })
+
+router.get('/addtoCart/:id', (req, res) => {
+  let cart = []
+  if (req.session.cart == null) {
+    // first item
+    let order = {
+      product_id: req.params.id,
+      qty: 1
+    }
+
+    cart.push(order)
+  } else {
+    cart = req.session.cart
+    let qty = 1
+    let newItem = true
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].product_id == req.params.id) {
+        cart[i].qty = cart[i].qty + 1
+        newItem = false
+      }
+    }
+
+    if (newItem) {
+      let order = {
+        product_id: req.params.id,
+        qty: qty
+      }
+      cart.push(order)
+    }
+  }
+
+  req.session.cart = cart
+  console.log(req.session.cart);
+  res.redirect('/')
+})
+
+router.get('/cart', async (req, res) => {
+  let conn = require('./connect2')
+  let cart = req.session.cart
+  let products = []
+  let totalQty = 0
+  let totalPrice = 0
+
+  if (cart.length > 0) {
+    for (let i = 0; i < cart.length; i++) {
+      let c = cart[i]
+      let sql = 'SELECT * FROM tb_product WHERE id = ?'
+      let params = [c.product_id]
+
+      let [rows, fields] = await conn.query(sql, params)
+      let product = rows[0]
+
+      let p = {
+        qty: c.qty,
+        id: product.id,
+        barcode: product.barcode,
+        name: product.name,
+        price: product.price,
+        img: product.img
+      }
+
+      products.push(p)
+
+      totalQty += parseInt(c.qty)
+      totalPrice += (c.qty * product.price)
+    }
+  }
+
+  res.render('cart', {
+    products: products,
+    totalQty: totalQty,
+    totalPrice: totalPrice
+  })
+})
+
+router.get('/deleteItemInCart/:id', (req, res) => {
+  let cart = req.session.cart
+  
+  for(let i = 0; i < cart.length; i++){
+    if(cart[i].product_id == req.params.id){
+      cart.splice(i, 1)
+    }
+  }
+
+  req.session.cart = cart
+  res.redirect('/cart')
+})
+
+router.get('/editItemInCart/:id' , (req, res) => {
+  let sql = 'SELECT * FROM tb_product WHERE id = ?'
+  let params = req.params.id;
+  conn.query(sql, params, (err, result) => {
+    if(err) throw err
+    let product = result[0]
+    let cart = req.session.cart
+
+    for(let i = 0; i < cart.length; i++){
+      if(cart[i].product_id == product.id){
+        product.qty = cart[i].qty
+      }
+    }
+
+    res.render('editItemInCart', {product : product})
+  })
+})
+
+router.post('/editItemInCart/:id', (req, res) => {
+  let cart = req.session.cart
+
+  cart.forEach((c) => {
+    if(c.product_id == req.params.id){
+      c.qty = req.body['qty']
+      cart.qty = c.qty
+    }
+  })
+
+  req.session.cart = cart
+  res.redirect('/cart')
+}) 
 
 module.exports = router; 

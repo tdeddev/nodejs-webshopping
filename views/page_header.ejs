@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lemon&family=Prompt:ital,wght@1,200&display=swap"
+        rel="stylesheet">
+    <title>E-Commerce System for Shopping Online</title>
+
+    <style>
+        * {
+            font-family: 'Lemon', cursive;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .icons {
+            display: inline-flex;
+            vertical-align: bottom;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="float-left">
+            <div class="h4 text-secondary">TDED SHOP</div>
+            <div class="h5 text-secondary">Online Shopping for you</div>
+        </div>
+        <div class="float-right">
+            <a href="/cart" class="btn btn-info">
+            <span class="material-symbols-outlined icons">
+                shopping_cart
+                </span>
+                <%= session.cart.length %>
+                ยืนยันการซื้อ
+                </a>
+        </div>
+        <div class="clearfix"></div>
+    </div>

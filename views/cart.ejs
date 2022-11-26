@@ -1,0 +1,48 @@
+<%- include('page_header') %>
+
+<div class="container">
+    <div class="h4">ตะกร้าสินค้า</div>
+    <table class="table table-bordered table-stripad">
+        <thead>
+            <th width="140px" class="text-center"></th>
+            <th width="100px" class="text-center">ภาพสินค้า</th>
+            <th width="100px" class="text-center">บาโค้ด</th>
+            <th class="text-center">รายการสินค้า</th>
+            <th width="100px" class="text-right">ราคาจำหน่าย</th>
+            <th width="100px" class="text-right">จำนวน</th>
+            <th width="100px" class="text-right">ยอดรวม</th>
+        </thead>
+        <tbody>
+            <% products.forEach((product) => { %>
+                <tr>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/editItemInCart/<%= product.id %>">
+                            <span class="material-symbols-outlined icons">
+                                Edit
+                            </span>
+                        </a>
+                        <a class="btn btn-danger" href="/deleteItemInCart/<%= product.id %>">
+                            <span class="material-symbols-outlined icons">
+                                close
+                            </span>
+                        </a>
+                    </td>
+                    </td>
+                    <td class="text-center"><img src="images/<%= product.img %>" width="150px"></td>
+                    <td class="text-center"><%= product.barcode %></td>
+                    <td class="text-center"><%= product.name %></td>
+                    <td class="text-right"><%= product.price %></td>
+                    <td class="text-right"><%= product.qty %></td>
+                    <td class="text-right"><%= product.qty * product.price %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        รวม <%= totalQty %> ชิ้น เป็นเงิน <%= totalPrice %> บาท
+    </div>
+</div>
+
+
+<%- include('page_footer') %>
